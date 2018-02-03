@@ -83,10 +83,23 @@ fi
 AC_MSG_CHECKING([type of line-editing library to use])
 AC_MSG_RESULT([$readline_type])
 
-AC_SEARCH_LIBS([cos],[m],,[
-AC_MSG_WARN([cannot find mathematics library, disabling floating-point])
-AC_DEFINE_UNQUOTED([NO_FP],[1],[Define to disable floating-point])
-])
+AC_ARG_ENABLE([fp],[AS_HELP_STRING([disable-fp],[disable floating point support])],,[enable_fp=auto])
+
+if test x"$enable_fp" != x"no" ; then
+	AC_SEARCH_LIBS([cos],[m],[
+		enable_fp=yes
+	],[
+		if test x"$enable_fp" = x"auto" ; then
+			AC_MSG_WARN([cannot find mathematics library, disabling floating-point])
+			enable_fp=no
+		elif test x"$enable_fp" = x"yes" ; then
+			AC_MSG_ERROR([cannot find mathematics library to enable floating point])
+		fi
+	])
+fi
+if test x"$enable_fp" = x"no" ; then
+	AC_DEFINE_UNQUOTED([NO_FP],[1],[Define to disable floating-point])
+fi
 	
 AC_MSG_CHECKING([whether to enable tests])
 if test x"$cross_compiling" = x"yes" ; then
