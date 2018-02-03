@@ -1,3 +1,5 @@
 # Flow -- an object-oriented superset of the C programming language
 
-SUBDIRS = libedit interpreter
+DIST_SUBDIRS = interpreter
+
+SUBDIRS = @subdirs@ interpreter

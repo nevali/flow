@@ -10,6 +10,10 @@
 #include <readline/history.h>
 #endif
 
+#ifdef USE_LIBEDIT
+#include <histedit.h>
+#endif
+
 /* mark where to end the program for platforms which require this */
 jmp_buf PicocExitBuf;
 
