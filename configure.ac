@@ -25,6 +25,11 @@ AC_CONFIG_FILES([readline/readline.h:libedit/src/editline/readline.h])
 AS_VAR_APPEND([AM_CPPFLAGS],['-I${top_srcdir}/libedit/src '])
 AC_DEFINE_UNQUOTED([USE_READLINE], [1], [Define to use readline API in the interpreter])
 
+AC_SEARCH_LIBS([cos],[m],,[
+AC_MSG_WARN([cannot find mathematics library, disabling floating-point])
+AC_DEFINE_UNQUOTED([NO_FP],[1],[Define to disable floating-point])
+])
+
 AC_SUBST([AM_CPPFLAGS])
 
 AC_CONFIG_FILES([
