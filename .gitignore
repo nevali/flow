@@ -1,4 +1,6 @@
 *~
+*.tmp
+*.bak
 .DS_Store
 .dirstamp
 configure

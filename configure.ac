@@ -87,6 +87,15 @@ AC_SEARCH_LIBS([cos],[m],,[
 AC_MSG_WARN([cannot find mathematics library, disabling floating-point])
 AC_DEFINE_UNQUOTED([NO_FP],[1],[Define to disable floating-point])
 ])
+	
+AC_MSG_CHECKING([whether to enable tests])
+if test x"$cross_compiling" = x"yes" ; then
+	enable_tests=no
+else
+	enable_tests=yes
+fi
+AC_MSG_RESULT([$enable_tests])
+AM_CONDITIONAL([ENABLE_TESTS], [test x$enable_tests = xyes])
 
 AC_SUBST([LIBS])
 AC_SUBST([LOCAL_LIBS])
@@ -95,6 +104,7 @@ AC_SUBST([AM_CPPFLAGS])
 AC_CONFIG_FILES([
 Makefile
 interpreter/Makefile
+t/Makefile
 ])
 
 AC_OUTPUT

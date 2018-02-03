@@ -1,13 +1,13 @@
 #include <stdio.h>
 
-FILE *f = fopen("fred.txt", "w");
+FILE *f = fopen("40_stdio.tmp", "w");
 fwrite("hello\nhello\n", 1, 12, f);
 fclose(f);
 
 char freddy[7];
-f = fopen("fred.txt", "r");
+f = fopen("40_stdio.tmp", "r");
 if (fread(freddy, 1, 6, f) != 6)
-    printf("couldn't read fred.txt\n");
+    printf("couldn't read 40_stdio.tmp\n");
 
 freddy[6] = '\0';
 fclose(f);
@@ -16,7 +16,7 @@ printf("%s", freddy);
 
 char InChar;
 char ShowChar;
-f = fopen("fred.txt", "r");
+f = fopen("40_stdio.tmp", "r");
 while ( (InChar = fgetc(f)) != EOF)
 {
     ShowChar = InChar;
@@ -27,7 +27,7 @@ while ( (InChar = fgetc(f)) != EOF)
 }
 fclose(f);
 
-f = fopen("fred.txt", "r");
+f = fopen("40_stdio.tmp", "r");
 while ( (InChar = getc(f)) != EOF)
 {
     ShowChar = InChar;
@@ -38,7 +38,7 @@ while ( (InChar = getc(f)) != EOF)
 }
 fclose(f);
 
-f = fopen("fred.txt", "r");
+f = fopen("40_stdio.tmp", "r");
 while (fgets(freddy, sizeof(freddy), f) != NULL)
     printf("x: %s", freddy);
 
