@@ -7,4 +7,4 @@ before_install:
 before_script:
 - autoreconf -fvi
 script:
-- ./configure && make && make check
+- ./configure --enable-fp --with-included-libedit --enable-tests && make && make check
