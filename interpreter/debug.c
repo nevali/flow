@@ -98,7 +98,7 @@ DebugSetBreakpoint(struct ParseState *Parser)
 
 		if (NewEntry == NULL)
 
-			ProgramFailNoParser(pc, "out of memory");
+			ProgramFailNoParser(pc, "out of memory (failed to allocate new entry for breakpoint)");
 
 
 		NewEntry->p.b.FileName = Parser->FileName;

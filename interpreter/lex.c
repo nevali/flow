@@ -412,7 +412,7 @@ LexGetStringConstant(Picoc * pc, struct LexState *Lexer, struct Value *Value, ch
 
 	EscBuf = HeapAllocStack(pc, EndPos - StartPos);
 	if (EscBuf == NULL)
-		LexFail(pc, Lexer, "out of memory");
+		LexFail(pc, Lexer, "out of memory (failed to allocate character buffer stack space)");
 
 	for (EscBufPos = EscBuf, Lexer->Pos = StartPos; Lexer->Pos != EndPos;)
 		*EscBufPos++ = LexUnEscapeCharacter(&Lexer->Pos, EndPos);
@@ -670,7 +670,7 @@ LexTokenise(Picoc * pc, struct LexState *Lexer, int *TokenLen)
 	int	LastCharacterPos = 0;
 
 	if (TokenSpace == NULL)
-		LexFail(pc, Lexer, "out of memory");
+		LexFail(pc, Lexer, "out of memory (failed to allocate token buffer stack space)");
 
 	do
 	{
@@ -703,7 +703,7 @@ LexTokenise(Picoc * pc, struct LexState *Lexer, int *TokenLen)
 
 	HeapMem = HeapAllocMem(pc, MemUsed);
 	if (HeapMem == NULL)
-		LexFail(pc, Lexer, "out of memory");
+		LexFail(pc, Lexer, "out of memory (failed to allocate heap buffer for tokenised program)");
 
 	assert(ReserveSpace >= MemUsed);
 	memcpy(HeapMem, TokenSpace, MemUsed);

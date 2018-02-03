@@ -1782,7 +1782,7 @@ ExpressionParseMacroCall(struct ParseState *Parser, struct ExpressionStack **Sta
 		HeapPushStackFrame(Parser->pc);
 		ParamArray = HeapAllocStack(Parser->pc, sizeof(struct Value *) * MDef->NumParams);
 		if (ParamArray == NULL)
-			ProgramFail(Parser, "out of memory");
+			ProgramFail(Parser, "out of memory (failed to allocate parameter stack space for macro call)");
 	}
 	else
 		ExpressionPushInt(Parser, StackTop, 0);
@@ -1876,7 +1876,7 @@ ExpressionParseFunctionCall(struct ParseState *Parser, struct ExpressionStack **
 		HeapPushStackFrame(Parser->pc);
 		ParamArray = HeapAllocStack(Parser->pc, sizeof(struct Value *) * FuncValue->Val->FuncDef.NumParams);
 		if (ParamArray == NULL)
-			ProgramFail(Parser, "out of memory");
+			ProgramFail(Parser, "out of memory (failed to allocate parameter stack space for function call)");
 	}
 	else
 	{
