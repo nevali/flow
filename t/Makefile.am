@@ -2,6 +2,8 @@ TEST_EXTENSIONS = .flow
 
 FLOW_LOG_COMPILER = $(CONFIG_SHELL) $(srcdir)/run-test.sh
 
+if ENABLE_TESTS
+
 TESTS = 00_assignment.flow \
 	01_comment.flow \
 	02_printf.flow \
@@ -177,3 +179,5 @@ TESTS = 00_assignment.flow \
 	rand108.flow \
 	rand109.flow \
 	rand110.flow
+
+endif

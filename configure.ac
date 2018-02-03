@@ -105,7 +105,7 @@ AC_MSG_CHECKING([whether to enable tests])
 if test x"$cross_compiling" = x"yes" ; then
 	enable_tests=no
 else
-	enable_tests=yes
+	AC_ARG_ENABLE([tests],[AS_HELP_STRING([--disable-tests],[disable the testsuite])],,[enable_tests=yes])
 fi
 AC_MSG_RESULT([$enable_tests])
 AM_CONDITIONAL([ENABLE_TESTS], [test x$enable_tests = xyes])
