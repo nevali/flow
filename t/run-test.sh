@@ -1,5 +1,8 @@
 #! /bin/sh
 
+STACKSIZE=524288
+export STACKSIZE
+
 src="$1"
 out="`basename $1`"
 case "$out" in
