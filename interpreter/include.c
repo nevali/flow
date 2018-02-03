@@ -1,6 +1,10 @@
 /* picoc include system - can emulate system includes from built-in libraries
  * or it can include and parse files if the system has files */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "picoc.h"
 #include "interpreter.h"
 

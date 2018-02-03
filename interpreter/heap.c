@@ -3,6 +3,11 @@
  * you can define USE_MALLOC_HEAP to use your system's own malloc() allocator */
 /* stack grows up from the bottom and heap grows down from the top of heap
  * space */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "interpreter.h"
 
 #ifdef DEBUG_HEAP

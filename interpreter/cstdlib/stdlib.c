@@ -1,4 +1,9 @@
 /* stdlib.h library for large systems - small embedded systems use clibrary.c instead */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "../interpreter.h"
 
 #ifndef BUILTIN_MINI_STDLIB

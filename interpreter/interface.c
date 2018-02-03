@@ -1,5 +1,9 @@
 /* Flow: parse interface definitions */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "picoc.h"
 #include "interpreter.h"
 

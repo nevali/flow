@@ -1,6 +1,10 @@
 /* picoc expression evaluator - a stack-based expression evaluation system
  * which handles operator precedence */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "interpreter.h"
 
 /* whether evaluation is left to right for a given precedence level */

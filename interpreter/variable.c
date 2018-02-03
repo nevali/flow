@@ -1,6 +1,10 @@
 /* picoc variable storage. This provides ways of defining and accessing
  * variables */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "interpreter.h"
 
 /* maximum size of a value to temporarily copy while we create a variable */

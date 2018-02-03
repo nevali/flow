@@ -1,5 +1,9 @@
 /* picoc interactive debugger */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #ifndef NO_DEBUGGER
 
 #include "interpreter.h"

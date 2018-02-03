@@ -1,6 +1,10 @@
 /* picoc hash table module. This hash table code is used for both symbol tables
  * and the shared string table. */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "interpreter.h"
 
 /* initialise the shared string system */

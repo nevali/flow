@@ -1,5 +1,10 @@
 /* picoc main program - this varies depending on your operating system and how
  * you're using picoc */
+
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 /* include only picoc.h here - should be able to use it with only the external
  * interfaces, no internals from interpreter.h */
 #include "picoc.h"

@@ -1,3 +1,6 @@
+*~
+.DS_Store
+.dirstamp
 configure
 Makefile.in
 Makefile

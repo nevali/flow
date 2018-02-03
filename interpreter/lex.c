@@ -1,5 +1,9 @@
 /* picoc lexer - converts source text into a tokenised form */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "interpreter.h"
 
 #ifdef NO_CTYPE

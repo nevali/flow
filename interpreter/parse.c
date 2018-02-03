@@ -1,5 +1,9 @@
 /* picoc parser - parses source and executes statements */
 
+#ifdef HAVE_CONFIG_H
+# include "config.h"
+#endif
+
 #include "picoc.h"
 #include "interpreter.h"
 

@@ -1,0 +1,3 @@
+[submodule "libedit"]
+	path = libedit
+	url = https://github.com/cdesjardins/libedit.git
