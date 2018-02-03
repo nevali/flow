@@ -63,34 +63,10 @@ typedef struct Picoc_Struct Picoc;
 /* lexical tokens */
 enum LexToken
 {
-    /* 0x00 */ TokenNone, 
-    /* 0x01 */ TokenComma,
-    /* 0x02 */ TokenAssign, TokenAddAssign, TokenSubtractAssign, TokenMultiplyAssign, TokenDivideAssign, TokenModulusAssign,
-    /* 0x08 */ TokenShiftLeftAssign, TokenShiftRightAssign, TokenArithmeticAndAssign, TokenArithmeticOrAssign, TokenArithmeticExorAssign,
-    /* 0x0d */ TokenQuestionMark, TokenColon, 
-    /* 0x0f */ TokenLogicalOr, 
-    /* 0x10 */ TokenLogicalAnd, 
-    /* 0x11 */ TokenArithmeticOr, 
-    /* 0x12 */ TokenArithmeticExor, 
-    /* 0x13 */ TokenAmpersand, 
-    /* 0x14 */ TokenEqual, TokenNotEqual, 
-    /* 0x16 */ TokenLessThan, TokenGreaterThan, TokenLessEqual, TokenGreaterEqual,
-    /* 0x1a */ TokenShiftLeft, TokenShiftRight, 
-    /* 0x1c */ TokenPlus, TokenMinus, 
-    /* 0x1e */ TokenAsterisk, TokenSlash, TokenModulus,
-    /* 0x21 */ TokenIncrement, TokenDecrement, TokenUnaryNot, TokenUnaryExor, TokenSizeof, TokenCast,
-    /* 0x27 */ TokenLeftSquareBracket, TokenRightSquareBracket, TokenDot, TokenArrow, 
-    /* 0x2b */ TokenOpenBracket, TokenCloseBracket,
-    /* 0x2d */ TokenIdentifier, TokenIntegerConstant, TokenFPConstant, TokenStringConstant, TokenCharacterConstant,
-    /* 0x32 */ TokenSemicolon, TokenEllipsis,
-    /* 0x34 */ TokenLeftBrace, TokenRightBrace,
-    /* 0x36 */ TokenIntType, TokenCharType, TokenFloatType, TokenDoubleType, TokenVoidType, TokenEnumType,
-    /* 0x3c */ TokenLongType, TokenSignedType, TokenShortType, TokenStaticType, TokenAutoType, TokenRegisterType, TokenExternType, TokenStructType, TokenUnionType, TokenUnsignedType, TokenTypedef,
-    /* 0x46 */ TokenContinue, TokenDo, TokenElse, TokenFor, TokenGoto, TokenIf, TokenWhile, TokenBreak, TokenSwitch, TokenCase, TokenDefault, TokenReturn,
-    /* 0x52 */ TokenHashDefine, TokenHashInclude, TokenHashIf, TokenHashIfdef, TokenHashIfndef, TokenHashElse, TokenHashEndif,
-    /* 0x59 */ TokenNew, TokenDelete,
-    /* 0x5b */ TokenOpenMacroBracket,
-    /* 0x5c */ TokenEOF, TokenEndOfLine, TokenEndOfFunction
+# define TOKEN(name) Token ## name
+# include "tokens.h"
+# undef TOKEN
+	LexTokenCount
 };
 
 /* used in dynamic memory allocation */
@@ -153,7 +129,10 @@ enum BaseType
     TypeUnion,                  /* merged type */
     TypeEnum,                   /* enumerated integer type */
     TypeGotoLabel,              /* a label we can "goto" */
-    Type_Type                   /* a type for storing types */
+    Type_Type,                  /* a type for storing types */
+	TypeInterface,              /* An interface definition */
+	TypeClass,                  /* A class definition */
+	TypeModule                  /* A module that can be imported */
 };
 
 /* data type */
@@ -168,6 +147,7 @@ struct ValueType
     struct ValueType *DerivedTypeList;  /* first in a list of types derived from this one */
     struct ValueType *Next;         /* next item in the derived type list */
     struct Table *Members;          /* members of a struct or union */
+	struct StackFrame *Scope;       /* the declaration scope for modules */
     int OnHeap;                     /* true if allocated on the heap */
     int StaticQualifier;            /* true if it's a static */
 };
@@ -267,6 +247,8 @@ struct StackFrame
 {
     struct ParseState ReturnParser;         /* how we got here */
     const char *FuncName;                   /* the name of the function we're in */
+	struct ValueType *ScopeType;            /* if not a function frame, the
+	                                         * class or interface we're for */
     struct Value *ReturnValue;              /* copy the return value here */
     struct Value **Parameter;               /* array of parameter values */
     int NumParams;                          /* the number of parameters */
@@ -520,12 +502,24 @@ int TypeSize(struct ValueType *Typ, int ArraySize, int Compact);
 int TypeSizeValue(struct Value *Val, int Compact);
 int TypeStackSizeValue(struct Value *Val);
 int TypeLastAccessibleOffset(Picoc *pc, struct Value *Val);
-int TypeParseFront(struct ParseState *Parser, struct ValueType **Typ, int *IsStatic);
+int TypeParseFront(struct ParseState *Parser, struct ValueType **Typ, int *IsStatic, enum LexToken *Token);
 void TypeParseIdentPart(struct ParseState *Parser, struct ValueType *BasicTyp, struct ValueType **Typ, char **Identifier);
 void TypeParse(struct ParseState *Parser, struct ValueType **Typ, char **Identifier, int *IsStatic);
 struct ValueType *TypeGetMatching(Picoc *pc, struct ParseState *Parser, struct ValueType *ParentType, enum BaseType Base, int ArraySize, const char *Identifier, int AllowDuplicates);
 struct ValueType *TypeCreateOpaqueStruct(Picoc *pc, struct ParseState *Parser, const char *StructName, int Size);
 int TypeIsForwardDeclared(struct ParseState *Parser, struct ValueType *Typ);
+
+/* attributes.c */
+int TypeParseAttributes(struct ParseState *Parser);
+
+/* interface.c */
+void TypeParseInterface(struct ParseState *Parser, struct ValueType **Typ);
+
+/* class.c */
+void TypeParseClass(struct ParseState *Parser, struct ValueType **Typ);
+
+/* module.c */
+void TypeParseModule(struct ParseState *Parser, struct ValueType **Typ);
 
 /* heap.c */
 void HeapInit(Picoc *pc, int StackSize);

@@ -1,0 +1,10 @@
+*.o
+*.lo
+*.a
+*.exe
+*.obj
+*~
+*.tmp
+*.bak
+.DS_Store
+/picoc
