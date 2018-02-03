@@ -9,7 +9,7 @@ picoc_SOURCES = picoc.c table.c lex.c parse.c expression.c heap.c type.c \
 	cstdlib/time.c cstdlib/errno.c cstdlib/ctype.c cstdlib/stdbool.c \
 	cstdlib/unistd.c
 
-picoc_LDADD = @LOCAL_LIBS@ @LIBS@
+picoc_LDADD = @LOCAL_LIBS@
 
 count:
 	@echo "Core:"
