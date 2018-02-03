@@ -17,7 +17,6 @@ static const char *tokens[] = {
 void
 ParseDebugToken(struct ParseState *Parser, enum LexToken Token)
 {
-	/*
 	if(Token >= LexTokenCount)
 	{
 		fprintf(stderr, "%s:%d:%d: token = 0x%02d\n", Parser->FileName, Parser->Line, Parser->CharacterPos, Token);
@@ -26,7 +25,6 @@ ParseDebugToken(struct ParseState *Parser, enum LexToken Token)
 	{
 		fprintf(stderr, "%s:%d:%d: token = %s (0x%02d)\n", Parser->FileName, Parser->Line, Parser->CharacterPos, tokens[Token], Token);
 	}
-	*/
 }
 
 /* deallocate any memory */
@@ -651,7 +649,7 @@ ParseStatement(struct ParseState *Parser, int CheckTrailingSemicolon)
 	 * statement we have */
 	ParserCopy(&PreState, Parser);
 	Token = LexGetToken(Parser, &LexerValue, TRUE);
-	ParseDebugToken(Parser, Token);
+/*	ParseDebugToken(Parser, Token); */
 	switch (Token)
 	{
 		case TokenEOF:

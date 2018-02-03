@@ -19,6 +19,23 @@ fi
 AC_CONFIG_HEADER([config.h])
 
 AC_DEFINE_UNQUOTED([UNIX_HOST], [1], [Define if building on a UNIX-like system])
+AC_DEFINE_UNQUOTED([_POSIX_C_SOURCE], [200809L], [This application targets a UNIX08 operating environment])
+
+## Check for specific (deprecated) system APIs
+
+AC_CHECK_HEADERS([unistd.h pwd.h strings.h])
+AC_CHECK_FUNCS([chroot fdatasync getdtablesize getpagesize getpass sbrk])
+AC_CHECK_DECLS([chroot, fdatasync, getdtablesize, getpagesize, getpass, sbrk],,,[
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+#ifdef HAVE_PWD_H
+#include <pwd.h>
+#endif
+#ifdef HAVE_STRINGS_H
+#include <strings.h>
+#endif
+])
 
 ## Allow the package builder to decide whether to build with an external
 ## readline or libedit, or to use the bundled libedit (if it's present)
@@ -83,6 +100,8 @@ fi
 AC_MSG_CHECKING([type of line-editing library to use])
 AC_MSG_RESULT([$readline_type])
 
+## Determine whether to enable floating point (<math.h>) support
+
 AC_ARG_ENABLE([fp],[AS_HELP_STRING([disable-fp],[disable floating point support])],,[enable_fp=auto])
 
 if test x"$enable_fp" != x"no" ; then
@@ -100,6 +119,8 @@ fi
 if test x"$enable_fp" = x"no" ; then
 	AC_DEFINE_UNQUOTED([NO_FP],[1],[Define to disable floating-point])
 fi
+
+## Determine whether to enable tests
 	
 AC_MSG_CHECKING([whether to enable tests])
 if test x"$cross_compiling" = x"yes" ; then

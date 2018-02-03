@@ -12,6 +12,25 @@
 
 #ifndef BUILTIN_MINI_STDLIB
 
+#if HAVE_CHROOT && !HAVE_DECL_CHROOT
+int chroot(const char *path);
+#endif
+#if HAVE_FDATASYNC && !HAVE_DECL_FDATASYNC
+int fdatasync(int fd);
+#endif
+#if HAVE_GETDTABLESIZE && !HAVE_DECL_GETDTABLESIZE
+int getdtablesize(void);
+#endif
+#if HAVE_GETPAGESIZE && !HAVE_DECL_GETPAGESIZE
+int getpagesize(void);
+#endif
+#if HAVE_GETPASS && !HAVE_DECL_GETPASS
+char *getpass(const char *prompt);
+#endif
+#if HAVE_SBRK && !HAVE_DECL_SBRK
+void *sbrk(int incr);
+#endif
+
 static int ZeroValue = 0;
 
 void UnistdAccess(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -31,7 +50,11 @@ void UnistdChdir(struct ParseState *Parser, struct Value *ReturnValue, struct Va
 
 void UnistdChroot(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
+#if HAVE_CHROOT
     ReturnValue->Val->Integer = chroot(Param[0]->Val->Pointer);
+#else
+	ReturnValue->Val->integer = -1;
+#endif
 }
 
 void UnistdChown(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
@@ -88,11 +111,12 @@ void UnistdFchdir(struct ParseState *Parser, struct Value *ReturnValue, struct V
 
 void UnistdFdatasync(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
-#ifndef F_FULLSYNC
+#if HAVE_FDATASYNC
     ReturnValue->Val->Integer = fdatasync(Param[0]->Val->Integer);
-#else
-    /* Mac OS X equivalent */
+#elif defined(F_FULLFSYNC)
     ReturnValue->Val->Integer = fcntl(Param[0]->Val->Integer, F_FULLFSYNC);
+#else
+	ReturnValue->val->Integer = -1;
 #endif
 }
 
@@ -274,7 +298,11 @@ void UnistdRmdir(struct ParseState *Parser, struct Value *ReturnValue, struct Va
 
 void UnistdSbrk(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)
 {
+#ifdef HAVE_SBRK
     ReturnValue->Val->Pointer = sbrk(Param[0]->Val->Integer);
+#else
+	ReturnValue->Val->Pointer = NULL;
+#endif
 }
 
 void UnistdSetgid(struct ParseState *Parser, struct Value *ReturnValue, struct Value **Param, int NumArgs)

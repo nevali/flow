@@ -6,6 +6,10 @@
 
 #include "../interpreter.h"
 
+#ifdef HAVE_STRINGS_H
+# include <strings.h>
+#endif
+
 #ifndef BUILTIN_MINI_STDLIB
 
 static int String_ZeroValue = 0;
